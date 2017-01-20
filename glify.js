@@ -1124,8 +1124,11 @@ L.CanvasOverlay = (L.Layer || L.Class).extend({
     var scale = this._map.getZoomScale(e.zoom)
       , offset = this._map._getCenterOffset(e.center)._multiplyBy(-scale).subtract(this._map._getMapPanePos())
       ;
-
-    this.canvas.style[L.DomUtil.TRANSFORM] = L.DomUtil.getTranslateString(offset) + ' scale(' + scale + ')';
+    if(L.DomUtil.getTranslateString) {
+        this.canvas.style[L.DomUtil.TRANSFORM] = L.DomUtil.getTranslateString(offset) + ' scale(' + scale + ')';
+    } else {
+        L.DomUtil.setTransform(this.canvas, offset, scale);
+    }    
   }
 });
 
